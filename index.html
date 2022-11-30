@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        table {
+            border: 1px solid;
+            border-collapse: collapse;
+        }
+
+        .content {
+            margin-top: 15vh;
+            border: 1px solid;
+            /* width: max-content; */
+            padding: 5%;
+            background-color: honeydew;
+        }
+
+        .table {
+            display: flex;
+            justify-content: center;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+
+        th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #04AA6D;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="content">
+        <h1>DOM parser</h1>
+        <div class="table">
+            <table>
+                <tr>
+                    <th>Name</th>
+                </tr>
+                <tr class="row">
+                    <td id="demo1"></td>
+                </tr>
+            </table>
+        </div>
+
+        <p id="rm"></p>
+
+        <input type="text" name="" id="changetxt">
+        <br>
+        <div class="buttons">
+            <button onclick="change()">Change</button>
+            <button onclick="removeElem()">Remove</button>
+            <!-- <button onclick="add()">Add</button> -->
+            <button onclick="traverse()">Show Sibiling</button>
+        </div>
+
+        <p id="demo"></p>
+        <script>
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    myFunction(this);
+                }
+            };
+            xhttp.open("GET", "test1.xml", true);
+            xhttp.send();
+
+            function myFunction(xml) {
+                var xmlDoc = xml.responseXML;
+                var x;
+                tr = xmlDoc.documentElement.childNodes;
+                x = xmlDoc.getElementsByTagName("name")[0].childNodes[0];
+                document.getElementById("demo1").innerHTML = x.nodeValue;
+            }
+
+            function change() {
+                document.getElementById("rm").innerText = ""
+                x = document.getElementById("changetxt").value
+                document.getElementById("demo1").innerText = x
+                document.getElementById("changetxt").value = ""
+            }
+
+            function removeElem() {
+                rmv = document.getElementById('demo1').innerText
+                document.getElementById("demo1").innerText = ""
+
+                document.getElementById("rm").innerText = "Removed node value: " + rmv
+            }
+
+            // function add() {
+            //     newEle = xmlDoc.createElement("new_born");
+            //     x = document.getElementById("changetxt").value
+            //     newText = xmlDoc.createTextNode(x);
+            //     newEle.appendChild(newText);
+
+            //     xmlDoc.getElementsByTagName("root")[0].appendChild(newEle);
+            // }
+
+            function traverse() {
+                txt = ""
+                for (i = 0; i < tr.length; i++) {
+                    if (tr[i].nodeType == 1) {
+                        txt += tr[i].nodeName + "<br>";
+                    }
+                }
+                document.getElementById("demo").innerHTML = txt;
+            }
+
+        </script>
+</body>
+
+</html>
